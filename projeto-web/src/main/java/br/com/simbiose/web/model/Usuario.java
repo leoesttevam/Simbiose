@@ -18,16 +18,19 @@ public class Usuario implements Serializable{
 	
 	private String nome;
 	
+	private String email;
+	
 	private Integer dataNascimento;
 
 	public Usuario() {
 		super();
 	}
 
-	public Usuario(Integer id, String nome, Integer dataNascimento) {
+	public Usuario(Integer id, String nome, Integer dataNascimento, String email) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.email = email;
 		this.dataNascimento = dataNascimento;
 	}
 
@@ -53,6 +56,14 @@ public class Usuario implements Serializable{
 
 	public void setDataNascimento(Integer dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	
