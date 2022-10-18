@@ -1,0 +1,5 @@
+package br.com.simbiose.web.model;
+
+public class Usuario {
+
+}
