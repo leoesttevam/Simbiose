@@ -1,26 +1,79 @@
 package br.com.simbiose.web.controller;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.simbiose.web.model.Usuario;
-import br.com.simbiose.web.service.UsuarioService;
+import br.com.simbiose.web.repository.UsuarioRepository;
+
 
 @RestController
-@RequestMapping(value = "/usuarios")
 public class UsuarioController {
 
 	@Autowired
-	private UsuarioService service;
+	private UsuarioRepository repo;
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Usuario> find(@PathVariable Integer id){
-		Usuario user = service.buscar(id);
-		
-		return ResponseEntity.ok().body(user);
-	}
+		@GetMapping(value = "buscaruserid")
+    	@ResponseBody
+    	public ResponseEntity<Usuario> buscaruserid(@RequestParam(name = "iduser") Integer iduser){
+    	
+    	Usuario usuario = repo.findById(iduser).get();
+    		
+    	return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+    }
+	
+	 	@GetMapping(value = "listatodos") 
+	    @ResponseBody
+	    public ResponseEntity<List<Usuario>> listaUsuario(){
+	    	
+	    	List<Usuario> usuarios = repo.findAll();
+	    	
+	    	return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
+	    	
+	    }
+	
+	 	@PostMapping(value = "salvar")
+	    @ResponseBody
+	    public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario){
+	    	
+	    	
+	    	Usuario user = repo.save(usuario); 
+	    	
+	    	return new ResponseEntity<Usuario>(user, HttpStatus.CREATED);
+	    }
+	 	
+	 	 @PutMapping(value = "atualizar")
+	     @ResponseBody
+	     public ResponseEntity<?> atualizar(@RequestBody Usuario usuario){
+	     	
+	     	if(usuario.getId() == null) {
+	     		return new ResponseEntity<String>("Id não foi informado para atualização.", HttpStatus.OK);
+	     	}
+	     	
+	     	Usuario user = repo.saveAndFlush(usuario);
+	     	
+	     	return new ResponseEntity<Usuario>(user, HttpStatus.OK);
+	     }
+	 	 
+	 	 @DeleteMapping(value = "delete")
+	     @ResponseBody
+	     public ResponseEntity<String> delete(@RequestParam Integer iduser){
+	     	
+	     	repo.deleteById(iduser);
+	     	
+	     	return new ResponseEntity<String>("Usuario deletado com sucesso", HttpStatus.OK);
+	     }
 }

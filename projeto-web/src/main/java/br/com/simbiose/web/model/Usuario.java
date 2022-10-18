@@ -20,13 +20,9 @@ public class Usuario implements Serializable{
 	
 	private String email;
 	
-	private Integer dataNascimento;
+	private String dataNascimento;
 
-	public Usuario() {
-		super();
-	}
-
-	public Usuario(Integer id, String nome, Integer dataNascimento, String email) {
+	public Usuario(Integer id, String nome, String dataNascimento, String email) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -50,11 +46,11 @@ public class Usuario implements Serializable{
 		this.nome = nome;
 	}
 
-	public Integer getDataNascimento() {
+	public String getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Integer dataNascimento) {
+	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
